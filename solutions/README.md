@@ -40,12 +40,38 @@ solutions/
 
 没有这四项,这个文件三个月后对你就没有价值了。
 
-## 用模板
+## 用脚本生成(推荐)
 
-每个语言目录下都有 `_template.*`,复制后改名,别从零开始。
+```bash
+scripts/new.sh python 15      # → solutions/python/week-01/0015-3sum.py
+scripts/new.sh cpp 42         # → solutions/cpp/week-01/0042_trapping-rain-water.cpp
+scripts/new.sh java 51        # → solutions/java/week-09/Solution0051.java
+```
+
+脚本会从 `data/problems.tsv` 查出该题属于第几周和准确 slug,文件名、周目录、题目注释全部自动填好。文件已存在时不覆盖。
+
+想放到其他周(比如重做旧题):
+
+```bash
+scripts/new.sh python 15 --week 9
+```
+
+## 手动方式
+
+每个语言目录下都有 `_template.*`,复制后改名。占位符 `{题号} {题名}` 需要自己换。
 
 ```bash
 cp solutions/python/_template.py solutions/python/week-01/0015-3sum.py
+```
+
+## slug 对照表怎么来的
+
+`data/problems.tsv` 不是手写的。它由 `scripts/fetch-slugs.py` 从 LeetCode 中文站官方接口拉取,数据源是 `docs/week-*.md` 里的题号。
+
+新增题目后重新生成:
+
+```bash
+python scripts/fetch-slugs.py
 ```
 
 ## 什么时候切语言
